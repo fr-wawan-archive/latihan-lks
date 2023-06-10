@@ -18,7 +18,7 @@
             <h1>MY STORE</h1>
             <ul>
                 <li>
-                    <a href="index.html" class="active">HOME</a>
+                    <a href="../../public/home/index.php" class="active">HOME</a>
                 </li>
                 <li>
                     <a href="">NEWEST</a>

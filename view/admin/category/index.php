@@ -1,6 +1,12 @@
 <?php
 include_once("../../../config/database.php");
 
+session_start();
+
+if ($_SESSION['admin'] == false) {
+    header("location: ../../public/auth/login.php");
+}
+
 $no = 1;
 $sql = "SELECT * FROM kategori";
 $stmt = $pdo->query($sql);
