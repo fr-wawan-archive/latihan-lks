@@ -1,5 +1,10 @@
 <?php
 include_once("../../../config/database.php");
+session_start();
+
+if ($_SESSION['admin'] == false) {
+    header("location: ../../public/auth/login.php");
+}
 
 $id = $_GET['id'];
 

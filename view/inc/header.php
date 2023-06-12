@@ -1,3 +1,8 @@
+<?php
+include_once("../../../config/function.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,12 +47,19 @@
                         <path d="M6 5l14 1l-1 7h-13" />
                     </svg>
                 </a>
-                <div class="sign-in">
-                    <p>Sign In</p>
-                    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6667 2.66669H37.3334V37.3334H18.6667V34.6667H34.6667V5.33335H18.6667V2.66669ZM20.944 11.056L29.8507 19.9627L20.9787 29.5707L19.0214 27.7627L24.9547 21.3334H2.66669V18.6667H24.7814L19.056 12.944L20.944 11.056Z" fill="black" />
-                    </svg>
-                </div>
+
+                <?php
+                if (!isset($_SESSION['isLoggedIn'])) {
+                ?>
+                    <div class="sign-in">
+                        <p>Sign In</p>
+                        <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6667 2.66669H37.3334V37.3334H18.6667V34.6667H34.6667V5.33335H18.6667V2.66669ZM20.944 11.056L29.8507 19.9627L20.9787 29.5707L19.0214 27.7627L24.9547 21.3334H2.66669V18.6667H24.7814L19.056 12.944L20.944 11.056Z" fill="black" />
+                        </svg>
+                    </div>
+                <?php } else { ?>
+                    <a href="../../public/auth/logout.php">Logout</a>
+                <?php } ?>
             </div>
         </nav>
     </header>

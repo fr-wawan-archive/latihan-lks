@@ -1,6 +1,10 @@
 <?php
-
 include_once("../../../config/database.php");
+session_start();
+
+if ($_SESSION['admin'] == false) {
+    header("location: ../../public/auth/login.php");
+}
 
 $produk_id = $_GET['id'];
 $sql = "SELECT * FROM produk WHERE id = $produk_id";
@@ -65,9 +69,9 @@ if (isset($_POST['submit'])) {
         }
 
         if ($update->execute()) {
-            echo "<script>alert('Data Berhasil Ditambah')</script>";
+            echo "<script>alert('Data Berhasil Dirubah')</script>";
         } else {
-            echo "<script>alert('Data Tidak Berhasil Ditambah')</script>";
+            echo "<script>alert('Data Tidak Berhasil Dirubah')</script>";
         }
     } else {
         foreach ($errors as $error) {
@@ -87,7 +91,7 @@ include_once("../../inc/admin_sidebar.php");
         <form action="" method="post" enctype="multipart/form-data">
             <div>
                 <label for="produk_name">Product Name : </label>
-                <input type="text" name="nama_produk" id="produk_name" placeholder="Category Name..." value="<?= $produk['nama_produk'] ?>">
+                <input type="text" name="nama_produk" id="produk_name" placeholder="Product Name..." value="<?= $produk['nama_produk'] ?>">
             </div>
             <label for="produk_price">Product Price : </label>
             <input type="number" name="harga" placeholder="Product Price..." id="produk_price" value="<?= $produk['harga'] ?>">
@@ -110,3 +114,8 @@ include_once("../../inc/admin_sidebar.php");
         </form>
     </div>
 </section>
+
+
+<?php
+include_once("../../inc/footer.php");
+?>

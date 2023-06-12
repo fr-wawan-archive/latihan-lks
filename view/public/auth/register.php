@@ -2,11 +2,10 @@
 include_once("../../../config/database.php");
 session_start();
 
-function isDuplicate($email, $password, $pdo)
+function isDuplicate($email, $pdo)
 {
     $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = :email AND password = :password");
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password);
     $stmt->execute();
 
     $admin = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,9 +45,10 @@ function registerUser($nama_lengkap, $no_hp, $alamat_lengkap, $email, $password,
         $stmt->bindParam(':no_hp', $no_hp);
         $stmt->bindParam(':alamat_lengkap', $alamat_lengkap);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':password', md5($password));
         $stmt->execute();
 
+        $_SESSION['isLoggedIn'] = true;
         $_SESSION['admin'] = false;
 
         echo "Registration Successfull";
@@ -88,3 +88,7 @@ include_once("../../inc/header.php");
         <p>Already have an account? <a href="login.php">Click Here!</a></p>
     </div>
 </section>
+
+<?php
+include_once("../../inc/footer.php");
+?>

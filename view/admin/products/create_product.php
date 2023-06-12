@@ -1,6 +1,11 @@
 <?php
 
 include_once("../../../config/database.php");
+session_start();
+
+if ($_SESSION['admin'] == false) {
+    header("location: ../../public/auth/login.php");
+}
 
 $sql = "SELECT * FROM kategori";
 $category = $pdo->query($sql);
@@ -44,9 +49,9 @@ if (isset($_POST['submit'])) {
             $insert->bindParam(':gambar', $target_file);
 
             if ($insert->execute()) {
-                echo " <script>alert('Data Berhasil Diupdate')</script>";
+                echo " <script>alert('Data Berhasil Dibuat')</script>";
             } else {
-                echo " <script>alert('Data Tidak Berhasil Diupdate')</script>";
+                echo " <script>alert('Data Tidak Berhasil Dibuat')</script>";
             }
         }
     } else {
@@ -56,13 +61,10 @@ if (isset($_POST['submit'])) {
     }
 }
 
-
 ?>
 
 <?php
 include_once("../../inc/header.php");
-// include_once("../../inc/admin_sidebar.php");
-
 ?>
 
 <section class="main">
@@ -70,7 +72,7 @@ include_once("../../inc/header.php");
         <form action="" method="post" enctype="multipart/form-data">
             <div>
                 <label for="produk_name">Product Name : </label>
-                <input type="text" name="nama_produk" id="produk_name" placeholder="Category Name...">
+                <input type="text" name="nama_produk" id="produk_name" placeholder="Product Name...">
             </div>
             <label for="produk_price">Product Price : </label>
             <input type="number" name="harga" placeholder="Product Price..." id="produk_price">
@@ -82,7 +84,7 @@ include_once("../../inc/header.php");
             </select>
             <label for="description">Product Description : </label>
             <textarea name="deskripsi" id="description" cols="30" rows="10" placeholder="Product Description..."></textarea>
-            <label for="image">Product Description : </label>
+            <label for="image">Product Images : </label>
             <input type="file" name="gambar" id="image">
             <div class="form-button">
                 <a class="button-back" href="index.php">BACK</a>
@@ -91,3 +93,8 @@ include_once("../../inc/header.php");
         </form>
     </div>
 </section>
+
+
+<?php
+include_once("../../inc/footer.php");
+?>

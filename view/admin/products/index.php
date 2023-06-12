@@ -1,6 +1,12 @@
 <?php
 include_once("../../../config/database.php");
 
+session_start();
+
+if ($_SESSION['admin'] == false) {
+    header("location: ../../public/auth/login.php");
+}
+
 $no = 1;
 $sql = "SELECT produk.id AS produk_id, produk.nama_produk AS nama_produk, kategori.id AS kategori_id, kategori.nama_kategori AS nama_kategori ,produk.harga AS harga FROM produk JOIN kategori ON produk.kategori_id = kategori.id";
 $stmt = $pdo->query($sql);
@@ -44,3 +50,7 @@ include_once("../../inc/admin_sidebar.php");
 
     </table>
 </section>
+
+<?php
+include_once("../../inc/footer.php");
+?>
