@@ -114,8 +114,3 @@ include_once("../../inc/admin_sidebar.php");
         </form>
     </div>
 </section>
-
-
-<?php
-include_once("../../inc/footer.php");
-?>

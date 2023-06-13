@@ -93,8 +93,3 @@ include_once("../../inc/header.php");
         </form>
     </div>
 </section>
-
-
-<?php
-include_once("../../inc/footer.php");
-?>

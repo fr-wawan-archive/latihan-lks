@@ -40,8 +40,3 @@ include_once("../../inc/admin_sidebar.php");
 
     </table>
 </section>
-
-
-<?php
-include_once("../../inc/footer.php");
-?>

@@ -78,7 +78,7 @@ include_once("../../inc/header.php");
         <form action="" method="post">
             <input type="text" placeholder="Your Email..." name="email">
             <input type="password" placeholder="Your Password..." name="password">
-            <button type="submit">LOGIN</button>
+            <button type="submit" class="auth">LOGIN</button>
         </form>
         <p>Already have an account? <a href="register.php">Click Here!</a></p>
     </div>

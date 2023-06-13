@@ -83,7 +83,7 @@ include_once("../../inc/header.php");
             <input type="email" placeholder="Your Email..." name="email">
             <input type="password" placeholder="Your Password..." name="password">
             <input type="password" placeholder="Your Password Confirmation..." name="password_confirmation">
-            <button type="submit" name="submit">SIGN IN</button>
+            <button type="submit" name="submit" class="auth">SIGN IN</button>
         </form>
         <p>Already have an account? <a href="login.php">Click Here!</a></p>
     </div>

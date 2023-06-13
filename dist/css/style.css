@@ -128,7 +128,7 @@ a {
   border-radius: 6px;
   margin-bottom: 5rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  width: 70%;
+  width: 295px;
   margin: auto;
   text-align: center;
 }
@@ -152,13 +152,15 @@ a {
 
 .quantity-button {
   display: flex;
+  height: 50px;
+  align-items: end;
   border: solid lightgrey 1px;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .quantity-button input {
-  padding: 0.5rem;
+  margin-bottom: 4px;
   border: none;
   text-align: center;
 }
@@ -166,6 +168,7 @@ a {
 .quantity-button button {
   padding: 0.5rem;
   border: none;
+  color: black;
   background: #fff;
 }
 
@@ -226,7 +229,8 @@ a {
 footer {
   padding: 5rem;
   background-color: black;
-  margin-top: 6rem;
+  margin-top: 20rem;
+  padding-bottom: 10rem;
 }
 
 footer h4 {
@@ -316,10 +320,11 @@ hr {
   margin-top: 3rem;
 }
 
-.details-button a {
+.details-button .order-button {
   text-decoration: none;
   color: #ef0505;
-
+  background-color: white;
+  cursor: pointer;
   border: solid 2px #ef0505;
   padding: 0.5rem 2rem;
   border-radius: 10px;
@@ -349,7 +354,7 @@ hr {
 }
 
 .cart-body img {
-  border-radius: 1rem;
+  margin-top: 2rem;
 }
 
 .cart-body .remove-button {
@@ -368,25 +373,39 @@ hr {
   margin-right: 3rem;
 }
 
-.cart-footer a {
-  text-decoration: none;
-  color: #5200ff;
-  border: #5200ff solid 1px;
-  padding: 0.75rem 2rem;
-  border-radius: 6px;
-  font-size: 13px;
+.cart-checkout {
+  display: flex;
+  justify-content: end;
 }
 
 .cart-checkout button {
-  border: none;
-  background: none;
-  padding: 0;
-}
-
-.cart-checkout button a {
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: #5200ff;
+  border: #5200ff solid 1px;
+  background-color: white;
+  cursor: pointer;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-size: 13px;
   gap: 3px;
+}
+
+.empty-cart h1 {
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: rgb(239 68 68);
+  border-radius: 0.375rem;
+  padding: 2.5rem;
+  .shadow-md {
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+      0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
 }
 
 /* Register */
@@ -451,7 +470,7 @@ form input::placeholder {
   font-family: "Poppins";
 }
 
-form button {
+form .auth {
   color: white;
   background: black;
   border: none;

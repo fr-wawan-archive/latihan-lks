@@ -62,14 +62,12 @@ include_once("../../inc/header.php");
                 <div class="card-header">
                     <img src="<?= $product['gambar'] ?>" alt="" />
                 </div>
-
-
                 <div class="card-body">
                     <h3><?= $product['nama_produk'] ?></h3>
                     <p><?= moneyFormat($product['harga']) ?></p>
                     <div class="button-products">
                         <a href="details_product.php?id=<?= $product['id'] ?>" class="button-details">Details</a>
-                        <a href="../cart/index.php?id=<?= $product['id'] ?>" class="button-order">Order</a>
+                        <a href="../cart/insert_cart.php?id=<?= $product['id'] ?>" class="button-order">Order</a>
                     </div>
                 </div>
             </div>
