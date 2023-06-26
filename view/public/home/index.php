@@ -4,11 +4,21 @@ include_once("../../../config/database.php");
 session_start();
 
 
-$sql = "SELECT * FROM produk ORDER BY harga DESC";
+
+
+$sql = "SELECT produk.id AS produk_id, produk.nama_produk AS nama_produk, COUNT(transaksi_detail.produk_id) AS jumlah_transaksi,produk.gambar AS produk_gambar,produk.harga AS produk_harga
+FROM produk
+JOIN transaksi_detail ON produk.id = transaksi_detail.produk_id
+GROUP BY produk.id, produk.nama_produk
+ORDER BY jumlah_transaksi DESC";
 $products = $pdo->query($sql);
 
-$sql = "SELECT * FROM produk ORDER BY nama_produk DESC";
+
+$sql = "SELECT * FROM produk ORDER BY harga DESC limit 8";
 $newest = $pdo->query($sql);
+
+$categories = $pdo->query("SELECT * FROM kategori");
+
 
 ?>
 
@@ -26,30 +36,19 @@ include_once("../../inc/header.php");
 <section class="category container">
     <h1>CATEGORY <span>PRODUCTS</span></h1>
 
-    <div class="card-wrapper">
+    <form action="../kategori/index.php">
+        <div class="category-filter">
+            <select name="category" id="category">
 
-        <div class="card-category">
-            <img src="images/category-image1.png" alt="" />
-            <p>Clothes</p>
+                <?php foreach ($categories as $category) :  ?>
+                    <option value="<?= $category['id'] ?>"><?= $category['nama_kategori'] ?></option>
+                <?php endforeach; ?>
+            </select>
+
+            <button type="submit" class="filter">Filter</button>
         </div>
-        <div class="card-category">
-            <img src="images/category-image1.png" alt="" />
-            <p>Clothes</p>
-        </div>
-        <div class="card-category">
-            <img src="images/category-image1.png" alt="" />
-            <p>Clothes</p>
-        </div>
-        <div class="card-category">
-            <img src="images/category-image1.png" alt="" />
-            <p>Clothes</p>
-        </div>
-        <div class="card-category">
-            <img src="images/category-image1.png" alt="" />
-            <p>Clothes</p>
-        </div>
-    </div>
 </section>
+</form>
 
 <section class="popular-products container">
     <div class="popular-products-title">
@@ -60,14 +59,19 @@ include_once("../../inc/header.php");
         <?php foreach ($products as $product) : ?>
             <div class="card-products">
                 <div class="card-header">
-                    <img src="<?= $product['gambar'] ?>" alt="" />
+                    <img src="<?= $product['produk_gambar'] ?>" alt="" />
                 </div>
                 <div class="card-body">
-                    <h3><?= $product['nama_produk'] ?></h3>
-                    <p><?= moneyFormat($product['harga']) ?></p>
+                    <?php
+                    $string = $product['nama_produk'];
+
+                    $nama = mb_strimwidth($string, 0, 50, "...");
+                    ?>
+                    <h3><?= $nama ?></h3>
+                    <p><?= moneyFormat($product['produk_harga']) ?></p>
                     <div class="button-products">
-                        <a href="details_product.php?id=<?= $product['id'] ?>" class="button-details">Details</a>
-                        <a href="../cart/insert_cart.php?id=<?= $product['id'] ?>" class="button-order">Order</a>
+                        <a href="details_product.php?id=<?= $product['produk_id'] ?>" class="button-details">Details</a>
+                        <a href="../cart/insert_cart.php?id=<?= $product['produk_id'] ?>" class="button-order">Order</a>
                     </div>
                 </div>
             </div>
@@ -83,16 +87,20 @@ include_once("../../inc/header.php");
     <div class="card-wrapper">
         <?php foreach ($newest as $product) :  ?>
             <div class="card-products">
-                <div class="card-header">
-                    <img src="<?= $product['gambar'] ?>" alt="" />
-                </div>
-                <div class="card-body">
-                    <h3><?= $product['nama_produk'] ?></h3>
-                    <p><?= moneyFormat($product['harga']) ?></p>
+                <img src="<?= $product['gambar'] ?>" alt="" />
+                <?php
+                $string = $product['nama_produk'];
 
+                $nama = mb_strimwidth($string, 0, 50, "...");
+                ?>
+                <h3><?= $nama ?></h3>
+                <div class="details-wrapper">
+                    <div class="price">
+                        <p><?= moneyFormat($product['harga']) ?></p>
+                    </div>
                     <div class="button-products">
-                        <a href="" class="button-details">Details</a>
-                        <a href="" class="button-order">Order</a>
+                        <a href="details_product.php?id=<?= $product['id'] ?>" class="button-details">Details</a>
+                        <a href="../cart/insert_cart.php?id=<?= $product['id'] ?>" class="button-order">Order</a>
                     </div>
                 </div>
             </div>

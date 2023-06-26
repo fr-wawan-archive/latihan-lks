@@ -1,10 +1,13 @@
 <?php
-include_once("../../inc/header.php");
 session_start();
 
+if (!$_SESSION['isLoggedIn']) {
+    header("location: ../../public/auth/login.php");
+}
 $grandTotal = 0;
 $quantity = 1;
 
+include_once("../../inc/header.php");
 ?>
 
 <section class="cart container">
@@ -17,7 +20,7 @@ $quantity = 1;
                 <div class="cart-body">
                     <?php $inputId = 'total-count' . $quantity; ?>
                     <img src="<?= $value['gambar'] ?>" alt="" width="300">
-                    <h2><?= $value['nama_produk'] ?></h2>
+                    <h4 class="cart-text"><?= $value['nama_produk'] ?></h4>
                     <p><?= moneyFormat($value['harga']) ?></p>
                     <div class="quantity-button">
                         <button type="button" onclick="decrement('<?= $inputId ?>')">
@@ -42,7 +45,7 @@ $quantity = 1;
                 <?php $grandTotal += $subTotal ?>
             <?php endforeach; ?>
             <div class="cart-footer">
-                <p>Total Price : <?= $grandTotal ?></p>
+                <p>Total Price : <?= moneyFormat($grandTotal) ?></p>
                 <div class="cart-checkout">
                     <button type="submit">
                         <svg width="25" height="25" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

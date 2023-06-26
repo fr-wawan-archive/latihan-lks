@@ -36,7 +36,7 @@ include_once("../../inc/admin_sidebar.php");
 ?>
 
 <section class="main">
-    <div class="form-section create-form container">
+    <div class="form-section crud-form container">
         <form action="" method="post">
             <input type="text" name="kategori" placeholder="Category Name...">
             <div class="form-button">

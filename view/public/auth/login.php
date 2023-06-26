@@ -24,25 +24,27 @@ function isAdmin($email, $password, $pdo)
         $_SESSION['admin'] = true;
     }
 
+
     return $admin !== false;
 }
 
 function isCustomer($email, $password, $pdo)
 {
-    $stmt = $pdo->prepare("SELECT * FROM customer WHERE email = :email AND password = :password");
+    $stmt = $pdo->prepare("SELECT * FROM customer WHERE email = :email");
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password);
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (is_array($user)) {
+    if ($user && password_verify($password, $user['password'])) {
         $_SESSION['id'] = $user['id'];
         $_SESSION['isLoggedIn'] = true;
-        $_SESSION['admin'] = false;
+
+        return true;
     }
 
-    return $user !== false;
+
+    return false;
 }
 
 function loginUser($email, $password, $pdo)
@@ -56,12 +58,27 @@ function loginUser($email, $password, $pdo)
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    loginUser($email, $password, $pdo);
+    $errors = [];
+    if (empty($email)) {
+        $errors[] = "Email Tidak Boleh Kosong";
+    }
+    if (empty($password)) {
+        $errors[] = "Password Tidak Boleh Kosong";
+    }
+    if (empty($errors)) {
+
+        loginUser($email, $password, $pdo);
+    } else {
+        foreach ($errors as $error) {
+            echo "<script>alert('$error')</script>";
+        }
+    }
 }
+
 
 
 ?>
@@ -78,7 +95,7 @@ include_once("../../inc/header.php");
         <form action="" method="post">
             <input type="text" placeholder="Your Email..." name="email">
             <input type="password" placeholder="Your Password..." name="password">
-            <button type="submit" class="auth">LOGIN</button>
+            <button type="submit" class="auth-button" name="submit">LOGIN</button>
         </form>
         <p>Already have an account? <a href="register.php">Click Here!</a></p>
     </div>

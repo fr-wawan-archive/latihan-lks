@@ -33,5 +33,5 @@ foreach ($_SESSION['cart'] as $cart => $value) {
 }
 
 unset($_SESSION['cart']);
-
-header("location:../cart/index.php");
+echo "<script>alert('Checkout Berhasil')</script>";
+echo "<script>window.location.href='../cart/index.php';</script>";

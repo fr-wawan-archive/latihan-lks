@@ -2,6 +2,10 @@
 include_once("../../../config/database.php");
 session_start();
 
+if (!$_SESSION['isLoggedIn']) {
+    header("location: ../../public/auth/login.php");
+    die();
+}
 $id = $_GET['id'];
 
 $sql = "SELECT * FROM produk WHERE id = $id";

@@ -21,8 +21,9 @@ if (isset($_POST['submit'])) {
     $target_dir = "../../images/products/";
     $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
     $imageExt = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $allowed_file_ext = ["jpg", "jpeg", "png"];
+    $allowed_file_ext = ["jpg", "jpeg", "png", "webp"];
 
+    $finalFile = $target_dir . uniqid(rand(), true) . "." . $imageExt;
 
     $errors = [];
 
@@ -39,14 +40,14 @@ if (isset($_POST['submit'])) {
     }
 
     if (empty($errors)) {
-        if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $finalFile)) {
 
             $insert = $pdo->prepare("INSERT INTO produk (nama_produk,kategori_id,deskripsi,harga,gambar) value (:name,:kategori_id,:deskripsi,:harga,:gambar)");
             $insert->bindParam(':name', $nama_produk);
             $insert->bindParam(':kategori_id', $category_id);
             $insert->bindParam(':deskripsi', $description);
             $insert->bindParam(':harga', $price);
-            $insert->bindParam(':gambar', $target_file);
+            $insert->bindParam(':gambar', $finalFile);
 
             if ($insert->execute()) {
                 echo " <script>alert('Data Berhasil Dibuat')</script>";
@@ -65,6 +66,7 @@ if (isset($_POST['submit'])) {
 
 <?php
 include_once("../../inc/header.php");
+include_once("../../inc/admin_sidebar.php");
 ?>
 
 <section class="main">

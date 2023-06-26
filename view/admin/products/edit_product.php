@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
     $target_dir = "../../images/products/";
     $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
     $imageExt = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $allowed_file_ext = ["jpg", "jpeg", "png"];
+    $allowed_file_ext = ["jpg", "jpeg", "png", "webp"];
 
 
     $errors = [];
@@ -56,7 +56,10 @@ if (isset($_POST['submit'])) {
 
         if (!empty($_FILES["gambar"]["tmp_name"])) {
             if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
+
                 $gambar_lama = $pdo->query("SELECT gambar FROM produk WHERE id = '$produk_id'")->fetchColumn();
+
+                var_dump($gambar_lama);
                 if (!empty($gambar_lama)) {
                     unlink($gambar_lama);
                 }
@@ -65,6 +68,9 @@ if (isset($_POST['submit'])) {
                 echo "<script>alert('Gagal mengunggah gambar')</script>";
             }
         } else {
+            $gambar_lama = $pdo->query("SELECT gambar FROM produk WHERE id = '$produk_id'")->fetchColumn();
+
+
             $update->bindParam(':gambar', $gambar_lama);
         }
 
@@ -104,7 +110,7 @@ include_once("../../inc/admin_sidebar.php");
                 <?php endforeach ?>
             </select>
             <label for="description">Product Description : </label>
-            <textarea name="deskripsi" id="description" cols="30" rows="10" placeholder="Product Description..."><?= $produk['deskripsi'] ?></textarea>
+            <textarea name="deskripsi" id="description" cols="30" rows="30" placeholder="Product Description..."><?= $produk['deskripsi'] ?></textarea>
             <label for="image">Product Description : </label>
             <input type="file" name="gambar" id="image">
             <div class="form-button">
@@ -114,3 +120,10 @@ include_once("../../inc/admin_sidebar.php");
         </form>
     </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.0/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea'
+    });
+</script>

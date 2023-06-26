@@ -27,9 +27,11 @@ include_once("../../inc/header.php");
             <img src="<?= $produk['gambar'] ?>" alt="" width="500">
         </div>
         <div class="details-body">
-            <h1><?= $produk['nama_produk'] ?></h1>
+            <h2><?= $produk['nama_produk'] ?></h2>
             <span><?= moneyFormat($produk['harga']) ?></span>
-            <p><?= $produk['deskripsi'] ?></p>
+            <?php $decodedText = htmlspecialchars_decode($produk['deskripsi']); ?>
+            <p><?= $decodedText ?></p>
+            <hr>
             <div class="details-button">
                 <div class="quantity-button">
                     <button type="button" onclick="decrement('<?= $inputId ?>')">
@@ -45,7 +47,7 @@ include_once("../../inc/header.php");
                     </button>
                 </div>
 
-                <button class="order-button">Order</button>
+                <button class="button-order">Order</button>
 
             </div>
         </div>

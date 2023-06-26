@@ -8,7 +8,13 @@ if ($_SESSION['admin'] == false) {
 }
 
 $no = 1;
-$sql = "SELECT * FROM kategori";
+
+
+if (isset($_GET['query'])) {
+    $sql = "SELECT * FROM kategori WHERE nama_kategori LIKE '%" . $_GET['query'] . "%'";
+} else {
+    $sql = "SELECT * FROM kategori";
+}
 $stmt = $pdo->query($sql);
 
 ?>
@@ -20,7 +26,12 @@ include_once("../../inc/admin_sidebar.php");
 
 <section class="main table-section">
     <a href="create_category.php" class="create-button">Create Category</a>
-    <h1>LIST <span>CATEGORY</span></h1>
+    <div class="main-header">
+        <h1>LIST <span>KATEGORI</span></h1>
+        <form action="">
+            <input type="text" placeholder="search" name="query">
+        </form>
+    </div>
     <table id="customers">
         <tr>
             <th>ID</th>

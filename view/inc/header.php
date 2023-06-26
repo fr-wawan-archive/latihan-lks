@@ -1,6 +1,7 @@
 <?php
 include_once("../../../config/function.php");
 
+
 ?>
 
 <!DOCTYPE html>
@@ -31,14 +32,19 @@ include_once("../../../config/function.php");
                 <li>
                     <a href="category-page.html">CATEGORY</a>
                 </li>
+                <li>
+                    <a href="../../public/profile/profile.php">PROFILE</a>
+                </li>
             </ul>
             <div class="navbar-right">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                </svg>
-                <a href="cart.html">
+                <a href="../../public/search/index.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                </a>
+                <a href="../../public/cart/index.php">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
@@ -51,12 +57,14 @@ include_once("../../../config/function.php");
                 <?php
                 if (!isset($_SESSION['isLoggedIn'])) {
                 ?>
-                    <div class="sign-in">
-                        <p>Sign In</p>
+                    <a href="../../public/auth/login.php" class="logout">Sign In
                         <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M18.6667 2.66669H37.3334V37.3334H18.6667V34.6667H34.6667V5.33335H18.6667V2.66669ZM20.944 11.056L29.8507 19.9627L20.9787 29.5707L19.0214 27.7627L24.9547 21.3334H2.66669V18.6667H24.7814L19.056 12.944L20.944 11.056Z" fill="black" />
                         </svg>
-                    </div>
+                    </a>
+                <?php } elseif (isset($_SESSION['admin']) == true) { ?>
+                    <a href="../../admin/dashboard/index.php">Admin</a>
+                    <a href="../../public/auth/logout.php">Logout</a>
                 <?php } else { ?>
                     <a href="../../public/auth/logout.php">Logout</a>
                 <?php } ?>

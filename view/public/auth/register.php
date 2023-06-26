@@ -4,7 +4,7 @@ session_start();
 
 function isDuplicate($email, $pdo)
 {
-    $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = :email AND password = :password");
+    $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
 
@@ -29,12 +29,16 @@ function isDuplicate($email, $pdo)
 
 function registerUser($nama_lengkap, $no_hp, $alamat_lengkap, $email, $password, $password_confirmation, $pdo)
 {
-    if (isDuplicate($email, $password, $pdo)) {
+    if (isDuplicate($email, $pdo)) {
         echo "Email already Taken";
     } else {
 
-        if ($password_confirmation !== $password) {
-            echo "Password & Password Confirmation not the same";
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+
+
+        if (!password_verify($password_confirmation, $hashed)) {
+            echo "<script>alert('Password Konfirmasi tidak sama')</script>";
             return false;
         }
 
@@ -45,13 +49,13 @@ function registerUser($nama_lengkap, $no_hp, $alamat_lengkap, $email, $password,
         $stmt->bindParam(':no_hp', $no_hp);
         $stmt->bindParam(':alamat_lengkap', $alamat_lengkap);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', md5($password));
+        $stmt->bindParam(':password', $hashed);
         $stmt->execute();
 
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['admin'] = false;
 
-        echo "Registration Successfull";
+        echo "<script>alert('Registrasi Berhasil')</script>";
     }
 }
 
@@ -63,7 +67,37 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $password_confirmation = $_POST['password_confirmation'];
 
-    registerUser($nama_lengkap, $no_hp, $alamat_lengkap, $email, $password, $password_confirmation, $pdo);
+    $errors = [];
+
+    if (empty($nama_lengkap)) {
+        $errors[] = "Nama Lengkap Tidak Boleh Kosong";
+    }
+    if (empty($email)) {
+        $errors[] = "Email Tidak Boleh Kosong";
+    }
+    if (empty($no_hp)) {
+        $errors[] = "No Hp Tidak Boleh Kosong";
+    }
+    if (empty($alamat_lengkap)) {
+        $errors[] = "Alamat Lengkap Tidak Boleh Kosong";
+    }
+    if (empty($password)) {
+        $errors[] = "Password Tidak Boleh Kosong";
+    }
+
+    if (empty($password_confirmation)) {
+        $errors[] = "Password Confirmation Tidak Boleh Kosong";
+    }
+
+    if (empty($errors)) {
+
+        registerUser($nama_lengkap, $no_hp, $alamat_lengkap, $email, $password, $password_confirmation, $pdo);
+        header("location: ../home/index.php");
+    } else {
+        foreach ($errors as $error) {
+            echo "<script>alert('$error')</script>";
+        }
+    }
 }
 
 ?>
@@ -83,7 +117,7 @@ include_once("../../inc/header.php");
             <input type="email" placeholder="Your Email..." name="email">
             <input type="password" placeholder="Your Password..." name="password">
             <input type="password" placeholder="Your Password Confirmation..." name="password_confirmation">
-            <button type="submit" name="submit" class="auth">SIGN IN</button>
+            <button type="submit" name="submit" class="auth-button">SIGN IN</button>
         </form>
         <p>Already have an account? <a href="login.php">Click Here!</a></p>
     </div>
